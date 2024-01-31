@@ -22,17 +22,23 @@ let data = d3.json(url).then(function(data) {
     selDataset.appendChild(option);
   }
 
+  // Replace the ; with <br> so that the hovertext is more readable on graphs 
+  for (let i=0;i<data.samples.length;i++){
+    for (let j=0;j<data.samples[i].sample_values.length;j++){
+      data.samples[i].otu_labels[j] = data.samples[i].otu_labels[j].replaceAll(';','<br>')  
+    }  
+  }  
+
   // Populate the charts and the meta data panel with the first set of data  
   populateMetadata(data.metadata[0]);
   plotBarChart(data.samples[0]);
   plotBubbleChart(data.samples[0]);
-
+  
   return data;
 });
 
 
-function plotBarChart(data){
-
+function plotBarChart(data){  
   // Add OTU to each name ID string for display on the chart 
   var otu_ids_str = data.otu_ids.map(i => "OTU " + i)
   
@@ -49,7 +55,7 @@ function plotBarChart(data){
       type: 'sort',
       target: 'y',
       order: 'descending'
-    }]
+    }],
   };
   // Adjust the position of the bar graph so that it is level with 
   // top of the selection panel.
@@ -86,7 +92,7 @@ function plotBubbleChart(data){
     mode: 'markers',
     marker: {
       color: data.otu_ids,
-    size: data.sample_values.map(value=>value*0.6)
+      size: data.sample_values.map(value=>value*0.6)
     },
     text: data.otu_labels
   };
@@ -127,7 +133,6 @@ function populateMetadata(data){
 
 // This function is called when a dropdown menu item is selected
 function optionChanged(datasetID) {
-
   // match the returned ID from the event listener to the ID in the global jsonData
   // for both the metadata and the sample data  
   const metadata = jsonData.metadata.find(obj => obj.id.toString() === datasetID);
