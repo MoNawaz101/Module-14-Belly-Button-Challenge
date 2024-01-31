@@ -12,7 +12,7 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 [static/js/app.js](static/js/app.js)  
 - Javascript file which:
-- - uses the D3 library to read the data
+  - uses the D3 library to read the data
   - plots a horizontal bar graph to display the top 10 OTUs found for each individual
   - plots a bubble chart of all the OTUs found for each individual
   - displays the individual's demographic data
